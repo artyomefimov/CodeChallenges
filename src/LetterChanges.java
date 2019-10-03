@@ -14,6 +14,7 @@ public class LetterChanges
         System.out.println(letterChanges("hello*3"));
         System.out.println(letterChanges("fun times!"));
         System.out.println(letterChanges("\"Argument goes here\""));
+        System.out.println(letterChanges("Zoo"));
     }
 
     private static String letterChanges(String input)
@@ -24,7 +25,7 @@ public class LetterChanges
             if (isLatinChar(chars[i]))
             {
                 int charValue = chars[i];
-                chars[i] = (char) ++charValue;
+                chars[i] = charValue == 'z' ? 'a' : (char) ++charValue;
                 if (isVowel(chars[i]))
                     chars[i] = Character.toUpperCase(chars[i]);
             }
