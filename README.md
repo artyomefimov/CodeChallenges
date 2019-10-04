@@ -4,3 +4,4 @@ There are solutions of some interesting code challenges that I found across the 
 - Simple adding
 - Factorial
 - Alphabet soup
+- Pentagonal number
