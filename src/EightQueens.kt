@@ -9,5 +9,40 @@
  */
 
 fun main() {
-
+    println(eightQueens(arrayOf("(2,1)", "(4,2)", "(6,3)", "(8,4)", "(3,5)", "(1,6)", "(7,7)", "(5,8)")))
+    println(eightQueens(arrayOf("(2,1)", "(4,3)", "(6,3)", "(8,4)", "(3,4)", "(1,6)", "(7,7)", "(5,8)")))
+    println(eightQueens(arrayOf("(2,1)", "(5,3)", "(6,3)", "(8,4)", "(3,4)", "(1,8)", "(7,7)", "(5,8)")))
 }
+
+private fun eightQueens(inputArray: Array<String>): String {
+    val queens = parseQueens(inputArray)
+    var attackedQueens: List<Queen>
+    queens.forEach { queen ->
+        attackedQueens = queens.filter { areNotTheSame(it, queen) && (areOnTheSameHorizontal(it, queen) || areOnTheSameVertical(it, queen) || areOnTheSameDiagonal(it, queen)) }
+        if (attackedQueens.isNotEmpty()) {
+            return "(${queen.x},${queen.y})"
+        }
+    }
+    return "true"
+}
+
+private fun parseQueens(inputArray: Array<String>): List<Queen> {
+    val list = mutableListOf<Queen>()
+    inputArray.forEach {
+        list.add(Queen(
+                it.substring(it.indexOf('(') + 1, it.indexOf(',')).toInt(),
+                it.substring(it.indexOf(',') + 1, it.indexOf(')')).toInt()
+        ))
+    }
+    return list
+}
+
+private fun areNotTheSame(queen1: Queen, queen2: Queen) = queen1 != queen2
+
+private fun areOnTheSameHorizontal(queen1: Queen, queen2: Queen) = queen1.x == queen2.x
+
+private fun areOnTheSameVertical(queen1: Queen, queen2: Queen) = queen1.y == queen2.y
+
+private fun areOnTheSameDiagonal(queen1: Queen, queen2: Queen) = (queen1.x - queen1.y) == (queen2.x - queen2.y)
+
+private data class Queen(val x: Int, val y: Int)

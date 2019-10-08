@@ -5,3 +5,4 @@ There are solutions of some interesting code challenges that I found across the 
 - Factorial
 - Alphabet soup
 - Pentagonal number
+- Eight queens
