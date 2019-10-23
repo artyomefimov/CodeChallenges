@@ -6,3 +6,4 @@ There are solutions of some interesting code challenges that I found across the 
 - Alphabet soup
 - Pentagonal number
 - Eight queens
+- Kaprekar's constant

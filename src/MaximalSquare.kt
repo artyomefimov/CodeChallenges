@@ -1,6 +1,6 @@
 /**
  * https://coderbyte.com/editor/guest:Maximal%20Square:Java
- * Have the function MaximalSquare(strArr) take the strArr parameter being passed which will be a 2D matrix of 0 and 1's,
+ * Have the function MaximalSquare(strArr) take the strArr parameter being passed which will be a 2D matrix 5x5 of 0 and 1's,
  * and determine the area of the largest square submatrix that contains all 1's.
  * A square submatrix is one of equal width and height,
  * and your program should return the area of the largest submatrix that contains only 1's.
@@ -8,26 +8,56 @@
 
 // todo попробовать способ с регуляркой
 fun main() {
-    square(arrayOf("0111", "1111", "1111", "1111"))
+    findMaxSquare(arrayOf(
+            "01011",
+            "11111",
+            "10111",
+            "01111",
+            "10110"))
 }
 
-private fun square(inputArray: Array<String>) {
-    val list = processRows(inputArray)
-    println(list) // todo список со списками позиций единиц в каждой строке
+private fun findMaxSquare(inputArray: Array<String>) {
+    val listOfOnesPositionsInEveryRow = getListOfOnesPositionsInEveryRow(inputArray)
+    println(listOfOnesPositionsInEveryRow) // todo список со списками позиций единиц в каждой строке
 }
 
-private fun processRows(inputArray: Array<String>): List<List<Int>> {
+private fun getListOfOnesPositionsInEveryRow(inputArray: Array<String>): List<List<Int>> {
     val list = mutableListOf<List<Int>>()
     inputArray.forEach { row ->
         val oneIndexes = mutableListOf<Int>()
         row.toCharArray().forEachIndexed { charIndex, char ->
-            if (char == '1')
+            if ('1' == char)
                 oneIndexes.add(charIndex)
         }
         list.add(oneIndexes)
     }
     return list
 }
+
+private fun processRows(listOfOnesPositionsInEveryRow: List<List<Int>>): Int {
+    for (i in 5 downTo 1) {
+        val rowsWithGivenNumberOfOnes = findRowsWithGivenNumberOfOnes(listOfOnesPositionsInEveryRow, i)
+        if (i == 5 && rowsWithGivenNumberOfOnes.size == 5)
+            return 25
+
+    }
+    return 0
+}
+
+private fun findRowsWithGivenNumberOfOnes(listOfOnesPositionsInEveryRow: List<List<Int>>, numberOfOnes: Int): List<RowInfo> {
+    val resultList = mutableListOf<RowInfo>()
+    listOfOnesPositionsInEveryRow.forEachIndexed { index, onesInRow ->
+        if (numberOfOnes == onesInRow.size) {
+            resultList.add(RowInfo(index, onesInRow))
+        }
+    }
+    return resultList
+}
+
+private data class RowInfo(
+        private val rowIndex: Int,
+        private val onesPositions: List<Int>
+)
 
 //private fun maximalSquare(inputArray: Array<String>): Int {
 //    if (inputArray.isEmpty()) return 0
